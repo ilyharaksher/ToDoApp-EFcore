@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using ToDoApp_EFcore.Data;
 
 
 //Console.WriteLine(Directory.GetCurrentDirectory());
@@ -166,18 +167,6 @@ while (run)
     }
 }
 
-
-
-public class ApplicationContext : DbContext
-{
-    public DbSet<Task> Tasks => Set<Task>();
-    public ApplicationContext() => Database.EnsureCreated();
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite("Data Source=Tasks.db");
-    }
-}
 
 public class Task
 {
