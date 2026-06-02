@@ -15,6 +15,8 @@ while (run)
         "3. Переименовать задачу\n" +
         "4. Удалить задачу\n" +
         "5. Отметить задачу выполненной\n" +
+        "6. Показать выполненные задачи\n" +
+        "7. Показать невыполненные задачи \n" +
         "0. Закончить работу\n");
     int choice = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine();
@@ -113,6 +115,47 @@ while (run)
             }
         }
         Console.WriteLine();
+    }
+
+    else if (choice == 6) // показать только выполненные
+
+    {
+        using (ApplicationContext db = new ApplicationContext())
+        {
+            var tasks = db.Tasks.Where(t => t.IsCompleted == true).ToList();
+            if (tasks.Count() > 0)
+            {
+                foreach (var task in tasks)
+                {
+                    Console.WriteLine($"{task.Id}. {task.Name}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Выполненных задач нет.");
+            }
+            Console.WriteLine();
+        }
+    }
+
+    else if (choice == 7) // показать только невыполненные
+    {
+        using (ApplicationContext db = new ApplicationContext())
+        {
+            var tasks = db.Tasks.Where(t => t.IsCompleted == false).ToList();
+            if (tasks.Count() > 0)
+            {
+                foreach (var task in tasks)
+                {
+                    Console.WriteLine($"{task.Id}. {task.Name}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Не выполненных задач нет.");
+            }
+            Console.WriteLine();
+        }
     }
 
     else if (choice == 0)
