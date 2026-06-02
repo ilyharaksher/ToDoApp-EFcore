@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using ToDoApp_EFcore.Data;
-
+using ToDoApp_EFcore.Models;
 
 //Console.WriteLine(Directory.GetCurrentDirectory());
 
@@ -42,7 +42,7 @@ while (run)
 
         using (ApplicationContext db = new ApplicationContext())
         {
-            Task newTask = new Task { Name = newTaskName };
+            TaskTodo newTask = new TaskTodo { Name = newTaskName };
             db.Tasks.Add(newTask);
             db.SaveChanges();
         }
@@ -56,7 +56,7 @@ while (run)
 
         using (ApplicationContext db = new ApplicationContext())
         {
-            Task? updatingTask = db.Tasks.Find(updatingId);
+            TaskTodo? updatingTask = db.Tasks.Find(updatingId);
             if (updatingTask != null)
             {
                 Console.WriteLine("Введите новое название");
@@ -80,7 +80,7 @@ while (run)
 
         using (ApplicationContext db = new ApplicationContext())
         {
-            Task? removingTask = db.Tasks.Find(removing_id);
+            TaskTodo? removingTask = db.Tasks.Find(removing_id);
 
             if (removingTask != null)
             {
@@ -102,7 +102,7 @@ while (run)
         int taskId = Convert.ToInt32(Console.ReadLine());
         using (ApplicationContext db = new ApplicationContext())
         {
-            Task? taskToComplete = db.Tasks.Find(taskId);
+            TaskTodo? taskToComplete = db.Tasks.Find(taskId);
             if (taskToComplete != null)
             {
                 taskToComplete.IsCompleted = true;
@@ -167,10 +167,3 @@ while (run)
     }
 }
 
-
-public class Task
-{
-    public int Id { get; set; }
-    public string? Name { get; set; } = string.Empty;
-    public bool IsCompleted { get; set; } = false;
-}
