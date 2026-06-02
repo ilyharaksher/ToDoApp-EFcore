@@ -14,7 +14,7 @@ while (run)
         "2. Добавить задачу\n" +
         "3. Переименовать задачу\n" +
         "4. Удалить задачу\n" +
-        "5. Отсортировать id задач\n" +
+        "5. Отметить задачу выполненной\n" +
         "0. Закончить работу\n");
     int choice = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine();
@@ -26,7 +26,7 @@ while (run)
             var tasks = db.Tasks.ToList();
             foreach (var task in tasks)
             {
-                Console.WriteLine($"Id: {task.Id} Название: {task.Name}");
+                Console.WriteLine($"Id: {task.Id} Название: {task.Name} Статус: {(task.IsCompleted ? "Выполнено" : "Не выполнено")}");
             }
         }
         Console.WriteLine();
@@ -91,6 +91,28 @@ while (run)
             }
             Console.WriteLine();
         }
+    }
+
+    else if (choice == 5) // Отметить задачу выполненной
+    {
+        Console.WriteLine("Введите Id задачи, которую надо отметить выполненной");
+        int taskId = Convert.ToInt32(Console.ReadLine());
+        using (ApplicationContext db = new ApplicationContext())
+        {
+            Task? taskToComplete = db.Tasks.Find(taskId);
+            if (taskToComplete != null)
+            {
+                taskToComplete.IsCompleted = true;
+                db.SaveChanges();
+                Console.WriteLine($"{taskToComplete.Name} отмечена выполненной");
+            }
+
+            else
+            {
+                Console.WriteLine($"Задачи с Id {taskId} нет");
+            }
+        }
+        Console.WriteLine();
     }
 
     else if (choice == 0)
